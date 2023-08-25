@@ -1,0 +1,8 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+  - redis-deployment.yaml
+  - redis-service.yaml
+
+commonLabels:
+  app: order

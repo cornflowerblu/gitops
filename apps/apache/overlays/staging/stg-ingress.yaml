@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/service-upstream: 'true'
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: stg-test.rurich.dev
+      http:
+        paths:
+          - backend:
+              service:
+                name: web-svc
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix

@@ -1,0 +1,8 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+  - mongo-deployment.yaml
+  - mongo-service.yaml
+
+commonLabels:
+  app: order-history

@@ -1,0 +1,10 @@
+resources:
+  - global/default-namespace.yaml
+  - global/staging-namespace.yaml
+  - global/ingress-nginx.yaml
+  # - order/order-namespace.yaml
+  # - order/order-staging-namespace.yaml
+  # - order/order-dev-namespace.yaml
+  # - order-history/order-history-namespace.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization

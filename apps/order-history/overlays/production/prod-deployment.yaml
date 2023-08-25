@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-history-deployment
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: order-history-config
+            optional: false      
+        image: 725736364916.dkr.ecr.us-west-2.amazonaws.com/order-history:latest
+        imagePullPolicy: Always
+        name: order-history
+        ports:
+          - containerPort: 80
+            name: http
+            protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File

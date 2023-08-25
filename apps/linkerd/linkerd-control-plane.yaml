@@ -1,0 +1,65 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: linkerd-control-plane
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: linkerd-control-plane
+    repoURL: https://helm.linkerd.io/stable
+    targetRevision: 1.12.5
+    helm:
+      parameters:
+        - name: identityTrustAnchorsPEM
+          value: |
+            -----BEGIN CERTIFICATE-----
+            MIIBjjCCATSgAwIBAgIRAN3xfntDV07wGgcXFHlIYDAwCgYIKoZIzj0EAwIwJTEj
+            MCEGA1UEAxMacm9vdC5saW5rZXJkLmNsdXN0ZXIubG9jYWwwHhcNMjMwODA4MjMy
+            MDIyWhcNMjgwODA2MjMyMDIyWjAlMSMwIQYDVQQDExpyb290LmxpbmtlcmQuY2x1
+            c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABFBxzvx1SeFDuDu5
+            /BQ/zgwjIBF+ySc/QCIt/MMnTUk3q8Oy5CXQe3HxhMZFEKLLFmDrsWZuj6nNToME
+            GMhiCQajRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEBMB0G
+            A1UdDgQWBBS7ANQk/WgUGJJOEBzCbUX+u2JpcTAKBggqhkjOPQQDAgNIADBFAiAk
+            5J9h4kzQI9/ODCoeg1b/glj9dksR86gSAaBL//XrVAIhAIMTFn8mQy1V8S9JyKnt
+            siUk1/hURildRKmP63ADFOyw
+            -----END CERTIFICATE-----
+        - name: identity.issuer.scheme
+          value: kubernetes.io/tls
+  destination:
+    namespace: linkerd
+    server: https://kubernetes.default.svc
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: linkerd-proxy-injector-k8s-tls
+      jsonPointers:
+        - /data/tls.crt
+        - /data/tls.key
+    - group: ""
+      kind: Secret
+      name: linkerd-sp-validator-k8s-tls
+      jsonPointers:
+        - /data/tls.crt
+        - /data/tls.key
+    - group: ""
+      kind: Secret
+      name: linkerd-policy-validator-k8s-tls
+      jsonPointers:
+        - /data/tls.crt
+        - /data/tls.key
+    - group: admissionregistration.k8s.io/v1
+      kind: MutatingWebhookConfiguration
+      name: linkerd-proxy-injector-webhook-config
+      jsonPointers:
+        - /webhooks/0/clientConfig/caBundle
+    - group: admissionregistration.k8s.io/v1
+      kind: ValidatingWebhookConfiguration
+      name: linkerd-sp-validator-webhook-config
+      jsonPointers:
+        - /webhooks/0/clientConfig/caBundle
+    - group: admissionregistration.k8s.io/v1
+      kind: ValidatingWebhookConfiguration
+      name: linkerd-policy-validator-webhook-config
+      jsonPointers:
+        - /webhooks/0/clientConfig/caBundle

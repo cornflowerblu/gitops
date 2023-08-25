@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    config.linkerd.io/proxy-await: enabled
+    linkerd.io/created-by: linkerd/helm stable-2.13.5
+    linkerd.io/inject: enabled
+  labels:
+    app.kubernetes.io/name: web
+    app.kubernetes.io/part-of: Linkerd
+    app.kubernetes.io/version: stable-2.13.5
+    component: web
+    linkerd.io/extension: viz
+    namespace: linkerd-viz
+  name: web
+  namespace: linkerd-viz
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      component: web
+      linkerd.io/extension: viz
+      namespace: linkerd-viz
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        cattle.io/timestamp: "2023-08-09T00:42:27Z"
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        config.alpha.linkerd.io/proxy-wait-before-exit-seconds: "0"
+        linkerd.io/created-by: linkerd/helm stable-2.13.5
+        linkerd.io/inject: enabled
+      creationTimestamp: null
+      labels:
+        component: web
+        linkerd.io/extension: viz
+        namespace: linkerd-viz
+    spec:
+      containers:
+        - args:
+            - >-
+              -linkerd-metrics-api-addr=metrics-api.linkerd-viz.svc.cluster.local:8085
+            - "-cluster-domain=cluster.local"
+            - "-controller-namespace=linkerd"
+            - "-log-level=info"
+            - "-log-format=plain"
+            - >-
+              -enforced-host=^(localhost|127\.0\.0\.1|web\.linkerd-viz\.svc\.cluster\.local|web\.linkerd-viz\.svc|\[::1\])(:\d+)?$
+            - "-enable-pprof=false"
+          image: cr.l5d.io/linkerd/web:stable-2.13.5
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 9994
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: web
+          ports:
+            - containerPort: 8084
+              name: http
+              protocol: TCP
+            - containerPort: 9994
+              name: admin-http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 7
+            httpGet:
+              path: /ready
+              port: 9994
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 2103
+            seccompProfile:
+              type: RuntimeDefault
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        kubernetes.io/os: linux
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccount: web
+      serviceAccountName: web
+      terminationGracePeriodSeconds: 30

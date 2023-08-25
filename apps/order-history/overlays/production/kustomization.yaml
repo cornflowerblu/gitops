@@ -1,0 +1,13 @@
+---
+namespace: order-history
+namePrefix: prod-
+resources:
+- ../../base
+patchesStrategicMerge:
+- prod-service.yaml
+- prod-deployment.yaml
+- prod-mongo-deployment.yaml
+- prod-mongo-service.yaml
+configMapGenerator:
+- name: order-history-config
+  env: config.properties

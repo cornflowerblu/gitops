@@ -1,0 +1,12 @@
+---
+namespace: staging
+namePrefix: stg-
+resources:
+- ../../base
+- stg-ingress.yaml
+patchesStrategicMerge:
+- stg-service.yaml
+- stg-deployment.yaml
+configMapGenerator:
+- name: stg-config
+  env: config.properties

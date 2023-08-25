@@ -1,0 +1,15 @@
+---
+namespace: order-staging
+namePrefix: stg-
+resources:
+- ../../base
+- stg-ingress.yaml
+- secret.json
+patchesStrategicMerge:
+- stg-service.yaml
+- stg-deployment.yaml
+- stg-redis-deployment.yaml
+- stg-redis-service.yaml
+configMapGenerator:
+- name: order-config
+  env: config.properties

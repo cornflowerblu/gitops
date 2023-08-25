@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-deployment
+spec:
+  template:
+    spec:
+      containers:
+      - envFrom:
+        - secretRef:
+            name: stg-order-secret
+            optional: false
+        - configMapRef:
+            name: order-config
+            optional: false      
+        image: 725736364916.dkr.ecr.us-west-2.amazonaws.com/orders:latest
+        imagePullPolicy: Always
+        name: orders
+        ports:
+          - containerPort: 80
+            name: http
+            protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File

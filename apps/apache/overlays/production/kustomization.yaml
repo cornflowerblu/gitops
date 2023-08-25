@@ -1,0 +1,9 @@
+---
+namespace: default
+namePrefix: prod-
+resources:
+- ../../base
+- prod-ingress.yaml
+patchesStrategicMerge:
+- prod-service.yaml
+- prod-deployment.yaml

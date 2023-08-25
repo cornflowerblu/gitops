@@ -1,0 +1,15 @@
+---
+namespace: order
+namePrefix: prod-
+resources:
+- ../../base
+- prod-ingress.yaml
+- secret.json
+patchesStrategicMerge:
+- prod-service.yaml
+- prod-deployment.yaml
+- prod-redis-deployment.yaml
+- prod-redis-service.yaml
+configMapGenerator:
+- name: order-config
+  env: config.properties
