@@ -1,0 +1,12 @@
+---
+namespace: default
+resources:
+- ../../base
+- prod-ingress.yaml
+- sealed-secret.json
+patchesStrategicMerge:
+- prod-service.yaml
+- prod-deployment.yaml
+configMapGenerator:
+- name: remix-config
+  env: config.properties
