@@ -1,0 +1,6 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+commonLabels:
+  fargate: "true"
+  k8s-app: remix
