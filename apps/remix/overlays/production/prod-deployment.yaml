@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: remix
+  name: remix-deployment
 spec:
   replicas: 1
   template:
@@ -9,17 +9,17 @@ spec:
       containers:
       - envFrom:
         - secretRef:
-            name: remix
+            name: prod-remix
             optional: false
         - configMapRef:
             name: remix-config
             optional: false
         image: 902342763241.dkr.ecr.us-west-2.amazonaws.com/remix-test
         imagePullPolicy: Always
-        name: remix
+        name: blues-remix
         ports:
           - containerPort: 80
             name: http
-            protocol: TCP          
+            protocol: TCP
         securityContext:
-          privileged: false
+          privileged: false        

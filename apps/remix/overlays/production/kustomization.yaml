@@ -1,4 +1,5 @@
-namespace: default
+namespace: prod-remix
+namePrefix: prod-
 resources:
   - ../../base
   - prod-ingress.yaml
