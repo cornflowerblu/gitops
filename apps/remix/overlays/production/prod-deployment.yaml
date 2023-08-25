@@ -7,30 +7,19 @@ spec:
   template:
     spec:
       containers:
-        - envFrom:
-          - secretRef:
-              name: remix
-              optional: false
-          - configMapRef:
-              name: remix-config
-              optional: false
-          name: remix
-          image: 902342763241.dkr.ecr.us-west-2.amazonaws.com/remix-test              
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-          imagePullPolicy: Always
-          securityContext:
-            privileged: false
-      restartPolicy: Always
-      terminationGracePeriodSeconds: 30
-      dnsPolicy: ClusterFirst
-      securityContext: {}
-      schedulerName: default-scheduler
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 25%
-      maxSurge: 25%
-  revisionHistoryLimit: 10
-  progressDeadlineSeconds: 600
+      - envFrom:
+        - secretRef:
+            name: remix
+            optional: false
+        - configMapRef:
+            name: remix-config
+            optional: false
+        image: 902342763241.dkr.ecr.us-west-2.amazonaws.com/remix-test
+        imagePullPolicy: Always
+        name: remix
+        ports:
+          - containerPort: 80
+            name: http
+            protocol: TCP          
+        securityContext:
+          privileged: false
