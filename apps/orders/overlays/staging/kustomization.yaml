@@ -1,5 +1,5 @@
 ---
-namespace: order-staging
+namespace: stg-order
 namePrefix: stg-
 resources:
 - ../../base
