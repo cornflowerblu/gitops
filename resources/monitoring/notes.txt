@@ -4,3 +4,5 @@ Linkerd installs best on its own from the getting started.
 
 Cert manager requires argo but it's a 2 second install if you're not setting up DNS.
 It's very easy to port forward it as well! Along with most of the monitoring tools.
+
+Linkerd has a plugin for Jaeger!! So hopefully they can trace the pods and then we can use it for the operator and collector. 
