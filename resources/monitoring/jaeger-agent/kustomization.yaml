@@ -1,0 +1,8 @@
+namespace: observability
+
+resources:
+- jaeger-agent-deployment.yaml
+- jaeger-agent-service.yaml
+
+commonLabels:
+  app: jaeger

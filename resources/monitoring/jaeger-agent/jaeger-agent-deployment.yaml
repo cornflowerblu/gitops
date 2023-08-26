@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jaeger-agent-deployment
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: jaeger-agent
+        image: jaegertracing/jaeger-agent:1.48
+        args: ["--reporter.grpc.host-port=10.244.0.69:14250"]
+        ports:
+        - containerPort: 14271

@@ -1,0 +1,8 @@
+namespace: observability
+
+resources:
+- jaeger-query-deployment.yaml
+- jaeger-query-service.yaml
+
+commonLabels:
+  app: jaeger-query
