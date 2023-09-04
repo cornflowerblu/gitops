@@ -1,9 +1,8 @@
 namespace: prod-remix
 resources:
-  - ../production/prod-ingress.yaml
   - rollout.yaml
-  - canary-service.yaml
-  - canary-deployment.yaml
+  - service.yaml
+  - deployment.yaml
 configMapGenerator:
   - name: remix-config
     env: config.properties

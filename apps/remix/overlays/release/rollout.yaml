@@ -6,7 +6,7 @@ spec:
   strategy:
     canary:
       # Reference to a Service which the controller will update to point to the canary ReplicaSet
-      canaryService: remix-canary-svc
+      canaryService: canary-remix-svc
       # Reference to a Service which the controller will update to point to the stable ReplicaSet
       stableService: prod-remix-svc
       trafficRouting:

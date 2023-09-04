@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: remix-canary
+  name: canary-remix
   namespace: prod-remix
 spec:
   replicas: 1
