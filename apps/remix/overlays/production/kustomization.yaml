@@ -1,7 +1,5 @@
 namespace: prod-remix
-namePrefix: prod-
 resources:
-  - ../../base
   - prod-ingress.yaml
   - sealed-secret.json
   - rollout.yaml
@@ -10,3 +8,5 @@ resources:
 configMapGenerator:
   - name: remix-config
     env: config.properties
+commonLabels:
+  app: remix
