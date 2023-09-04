@@ -1,6 +1,6 @@
 namespace: prod-remix
 resources:
-  - prod-ingress.yaml
+  - ../production/prod-ingress.yaml
   - rollout.yaml
   - canary-service.yaml
   - canary-deployment.yaml
