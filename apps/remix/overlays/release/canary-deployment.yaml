@@ -9,13 +9,10 @@ spec:
     spec:
       containers:
       - envFrom:
-        - secretRef:
-            name: prod-remix
-            optional: false
         - configMapRef:
             name: remix-config
             optional: false
-        image: 902342763241.dkr.ecr.us-west-2.amazonaws.com/remix-test
+        image: 902342763241.dkr.ecr.us-west-2.amazonaws.com/remix-test:canary
         imagePullPolicy: Always
         name: blues-remix
         ports:

@@ -8,9 +8,9 @@ spec:
       # Reference to a Service which the controller will update to point to the canary ReplicaSet
       canaryService: remix-canary-svc
       # Reference to a Service which the controller will update to point to the stable ReplicaSet
-      stableService: remix-svc
+      stableService: prod-remix-svc
       trafficRouting:
         nginx:
           # Reference to an Ingress which has a rule pointing to the stable service (e.g. remix-demo-stable)
           # This ingress will be cloned with a new name, in order to achieve NGINX traffic splitting.
-          stableIngress: remix-ingress
+          stableIngress: prod-remix-ingress
