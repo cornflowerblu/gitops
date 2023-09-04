@@ -1,12 +1,12 @@
 namespace: prod-remix
-namePrefix: prod-
 resources:
-  - ../../base
   - prod-ingress.yaml
   - sealed-secret.json
-patchesStrategicMerge:
-  - prod-service.yaml
-  - prod-deployment.yaml
+  - rollout.yaml
+  - canary-service.yaml
+  - canary-deployment.yaml
 configMapGenerator:
   - name: remix-config
     env: config.properties
+commonLabels:
+  app: remix
